@@ -80,9 +80,9 @@ function setState() {
 
     return {
       h: h + 1,
-      x: userAlteration === 0 ? x : xAlteration + userAlteration,
-      y: userAlteration === 0 ? y : yAlteration + userAlteration,
-      r: userAlteration === 0 ? r : rAlteration + userAlteration,
+      x: userAlteration === 0 ? x : x + noise * userAlteration,
+      y: userAlteration === 0 ? y : y + noise * userAlteration,
+      r: userAlteration === 0 ? r : r + noise * userAlteration,
     };
   });
 }
@@ -144,18 +144,18 @@ window.requestAnimationFrame(render);
   };
 
   plusButton.onclick = () => {
-    alteration = Math.min(4, alteration + 0.1);
+    alteration = Math.min(4, alteration + 0.25);
 
     if (alteration === 0) {
-      alteration = 0.1;
+      alteration = 0.25;
     }
   };
 
   minusButton.onclick = () => {
-    alteration = Math.max(-4, alteration - 0.1);
+    alteration = Math.max(-4, alteration - 0.25);
 
     if (alteration === 0) {
-      alteration = -0.1;
+      alteration = -0.25;
     }
   };
 
@@ -169,7 +169,7 @@ window.requestAnimationFrame(render);
     pauseButton.innerHTML = pauseButton.innerHTML === '▶️' ? '⏸' : '▶️';
 
     if (alteration === 0) {
-      alteration += 0.1;
+      alteration += 0.25;
     } else {
       alteration = 0;
     }
