@@ -21,19 +21,19 @@ canvas.width = width;
 canvas.height = height;
 
 const ctx = canvas.getContext('2d');
-ctx.fillStyle = rgba(0, 0, 0, 0);
+ctx.fillStyle = rgba(0, 0, 0, 0.1);
 ctx.fillRect(0, 0, width, height);
 
 // modify these to change render
 const constants = Object.freeze({
   count: 100, // increasing this can cause browser to crash
-  margin: width * 0.2, // * max 1
-  blur: 0.2, // max 1
+  margin: width * 0.4, // * max 1
+  blur: 0.5, // max 1
   pointWidth: 3,
   pointHeight: 3,
-  rotationIncrement: 0.00005,
-  heightIncrement: 0.000401,
-  widthIncrement: 0.00001,
+  rotationIncrement: 0.0001,
+  heightIncrement: 0.01,
+  widthIncrement: 0.01,
 });
 
 const createPointsState = () => {
@@ -94,7 +94,11 @@ function cleanSlate() {
     blur *= 2;
   }
 
-  ctx.fillStyle = rgba(255, 255, 255, blur);
+  const gradient = ctx.createLinearGradient(0, 0, width, height);
+  gradient.addColorStop(0, rgba(200, 255, 255, blur));
+  gradient.addColorStop(1, rgba(255, 200, 255, blur));
+
+  ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, width, height);
 }
 
@@ -140,18 +144,18 @@ window.requestAnimationFrame(render);
   };
 
   plusButton.onclick = () => {
-    alteration = Math.min(4, alteration + 1);
+    alteration = Math.min(4, alteration + 0.1);
 
     if (alteration === 0) {
-      alteration = 1;
+      alteration = 0.1;
     }
   };
 
   minusButton.onclick = () => {
-    alteration = Math.max(-4, alteration - 1);
+    alteration = Math.max(-4, alteration - 0.1);
 
     if (alteration === 0) {
-      alteration = -1;
+      alteration = -0.1;
     }
   };
 
@@ -165,7 +169,7 @@ window.requestAnimationFrame(render);
     pauseButton.innerHTML = pauseButton.innerHTML === '▶️' ? '⏸' : '▶️';
 
     if (alteration === 0) {
-      alteration += 1;
+      alteration += 0.1;
     } else {
       alteration = 0;
     }
